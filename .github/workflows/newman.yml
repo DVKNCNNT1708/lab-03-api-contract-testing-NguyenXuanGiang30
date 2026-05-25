@@ -27,8 +27,22 @@ jobs:
 
       - name: Start Prism Mock and Run Newman contract tests
         run: |
-          nohup npm run mock:gate > prism-gate.log 2>&1 &
-          npx wait-on http://localhost:4012/health --timeout 30000
+          npx prism mock contracts/gate.openapi.yaml -p 4012 --host 0.0.0.0 > prism-gate.log 2>&1 &
+          echo "Waiting for Access Gate mock server to start..."
+          for i in {1..30}; do
+            if curl -s http://localhost:4012/health > /dev/null; then
+              echo "Mock server started successfully on port 4012!"
+              curl -s http://localhost:4012/health
+              break
+            fi
+            echo "Waiting... ($i)"
+            sleep 1
+          done
+          if ! curl -s http://localhost:4012/health > /dev/null; then
+            echo "=== ERROR: Access Gate mock server failed to start! ==="
+            cat prism-gate.log
+            exit 1
+          fi
           npm run test:gate-mock
           npm run test:gate-html || true
 
