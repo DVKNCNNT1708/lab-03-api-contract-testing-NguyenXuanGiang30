@@ -6,7 +6,7 @@ install:
 lint:
 	npm run lint:contracts
 
-mock: mock-iot
+mock: mock-gate
 
 mock-iot:
 	npm run mock:iot
@@ -14,17 +14,29 @@ mock-iot:
 mock-vision:
 	npm run mock:vision
 
+mock-gate:
+	npm run mock:gate
+
 mock-all:
 	npm run mock:all
 
 test-mock:
-	npm run test:mock
+	npm run test:gate-mock
 
 test-local:
-	npm run test:local
+	npm run test:gate-local
 
 test-html:
-	npm run test:html
+	npm run test:gate-html
+
+test-gate-mock:
+	npm run test:gate-mock
+
+test-gate-local:
+	npm run test:gate-local
+
+test-gate-html:
+	npm run test:gate-html
 
 test-ci:
 	npm run test:ci

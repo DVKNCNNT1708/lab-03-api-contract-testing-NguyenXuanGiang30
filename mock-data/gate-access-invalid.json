@@ -1,0 +1,12 @@
+[
+  {
+    "gateId": "GATE-INVALID",
+    "cardId": "RFID-INVALID",
+    "expectedStatus": 400
+  },
+  {
+    "gateId": "GATE-999",
+    "cardId": "RFID-123",
+    "expectedStatus": 400
+  }
+]

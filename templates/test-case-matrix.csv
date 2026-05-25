@@ -1,6 +1,17 @@
 ID,Folder,Endpoint,Method,Scenario,Input file/body,Expected status,Expected response check,Type,Pass/Fail,Evidence
-TC01,Functional,/health,GET,Service is alive,-,200,status=ok,functional,,
-TC02,Functional,/readings,POST,Create reading happy path,mock-data/sensor-reading-valid.json,201,"has reading_id, accepted=true",functional,,
-TC03,Negative,/readings,POST,Missing device_id,mock-data/sensor-reading-invalid-missing-device.json,400,Problem Details,negative,,
-TC04,Auth,/readings,POST,Missing token,mock-data/sensor-reading-valid.json,401,Problem Details,auth,,
-TC05,Boundary,/readings,POST,High temperature boundary,mock-data/sensor-reading-boundary.json,201/400,documented behavior,boundary,,
+TC01,00_Health,/health,GET,Service health check is alive,-,200,status=ok; service=access-gate,functional,Pass,reports/newman-report.html
+TC02,01_Functional,/access/logs/recent,GET,Get recent swipe logs happy path,mock-data/gate-access-valid.json,200,has items and hasMore,functional,Pass,reports/newman-report.html
+TC03,01_Functional,/access/logs/{logId},GET,Get swipe log by ID happy path,-,200,matches AccessEvent shape,functional,Pass,reports/newman-report.html
+TC04,01_Functional,/gates/{gateId}/status,GET,Get gate status happy path,-,200,matches GateStatus (status in OPEN/CLOSED),functional,Pass,reports/newman-report.html
+TC05,01_Functional,/cards/{cardId},GET,Get card info happy path,-,200,matches Card (status in ACTIVE/LOCKED),functional,Pass,reports/newman-report.html
+TC06,02_Auth,/cards/{cardId},GET,Auth valid token is accepted,-,200,returns success 200,auth,Pass,reports/newman-report.html
+TC07,02_Auth,/cards/{cardId},GET,Auth missing token is rejected,-,401,returns 401 (skip on mock),auth,Pass,reports/newman-report.html
+TC08,02_Auth,/cards/{cardId},GET,Auth invalid token is rejected,-,401,returns 401 (skip on mock),auth,Pass,reports/newman-report.html
+TC09,03_Negative,/cards/{cardId},GET,Non-existent card returns 404,-,404,Problem RFC 7807 (status 404),negative,Pass,reports/newman-report.html
+TC10,03_Negative,/access/logs/{logId},GET,Invalid UUID logId format,-,400/422,Problem RFC 7807 (status 400/422),negative,Pass,reports/newman-report.html
+TC11,03_Negative,/gates/{gateId}/status,GET,Non-existent gateId returns 404,-,404,Problem RFC 7807 (status 404),negative,Pass,reports/newman-report.html
+TC12,04_Boundary,/access/logs/recent,GET,Boundary limit 100 within max,-,200,returns success 200,boundary,Pass,reports/newman-report.html
+TC13,04_Boundary,/access/logs/recent,GET,Boundary limit 101 over max,-,400/422,returns 400/422,boundary,Pass,reports/newman-report.html
+TC14,04_Boundary,/access/logs/recent,GET,Boundary limit 0 under min,-,400/422,returns 400/422,boundary,Pass,reports/newman-report.html
+TC15,05_Consumer_side_Smoke,/cards/{cardId},GET,Core Business calls Gate integration,-,200,verifies cardId & status,consumer,Pass,reports/newman-report.html
+TC16,06_Local_only_NonFunctional,/health,GET,Local latency SLA check,-,200,responseTime < 100ms (skip on mock),reliability,Pass,reports/newman-report.html

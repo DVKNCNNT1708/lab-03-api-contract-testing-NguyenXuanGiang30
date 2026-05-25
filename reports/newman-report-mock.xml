@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Access Gate API Contract Tests" tests="16" time="0.121">
+  <testsuite name="00_Health / GET /health - Access Gate is alive" id="79399377-e6b9-4e58-9731-14a171a73d63" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.052">
+    <testcase name="Status code is 200" time="0.052" classname="00HealthGetHealthAccessGateIsAlive"/>
+    <testcase name="Response has service status" time="0.052" classname="00HealthGetHealthAccessGateIsAlive"/>
+  </testsuite>
+  <testsuite name="01_Functional / GET /access/logs/recent - happy path" id="b7ec9a28-c0a1-4240-9a78-f80430b30b98" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.006">
+    <testcase name="Status code is 200" time="0.006" classname="01FunctionalGetAccessLogsRecentHappyPath"/>
+    <testcase name="Response contains valid recent logs list" time="0.006" classname="01FunctionalGetAccessLogsRecentHappyPath"/>
+  </testsuite>
+  <testsuite name="01_Functional / GET /access/logs/{logId} - happy path" id="3ccb1520-5762-4de9-89d5-96122302a949" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.004">
+    <testcase name="Status code is 200" time="0.004" classname="01FunctionalGetAccessLogsLogIdHappyPath"/>
+    <testcase name="Response matches AccessEvent shape" time="0.004" classname="01FunctionalGetAccessLogsLogIdHappyPath"/>
+  </testsuite>
+  <testsuite name="01_Functional / GET /gates/{gateId}/status - happy path" id="871ba78c-2940-4e82-b080-6a90e6e4dde1" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="Status code is 200" time="0.005" classname="01FunctionalGetGatesGateIdStatusHappyPath"/>
+    <testcase name="Response matches GateStatus schema" time="0.005" classname="01FunctionalGetGatesGateIdStatusHappyPath"/>
+  </testsuite>
+  <testsuite name="01_Functional / GET /cards/{cardId} - happy path" id="7fe91d56-8cd6-4ec8-aff0-abfb6494e849" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.004">
+    <testcase name="Status code is 200" time="0.004" classname="01FunctionalGetCardsCardIdHappyPath"/>
+    <testcase name="Response matches Card schema" time="0.004" classname="01FunctionalGetCardsCardIdHappyPath"/>
+  </testsuite>
+  <testsuite name="02_Auth / GET /cards/{cardId} - valid token is accepted" id="59f53e15-3589-42e0-86f7-493a1b275e50" timestamp="2026-05-25T13:28:52.913Z" tests="1" failures="0" errors="0" time="0.005">
+    <testcase name="Valid token request returns 200" time="0.005" classname="02AuthGetCardsCardIdValidTokenIsAccepted"/>
+  </testsuite>
+  <testsuite name="02_Auth / GET /cards/{cardId} - missing token is rejected on local service" id="a74906a8-f6d9-4042-80e8-471c569a3224" timestamp="2026-05-25T13:28:52.913Z" tests="1" failures="0" errors="0" time="0.005">
+    <testcase name="Skipped on mock: Prism does not enforce real auth without custom rules" time="0.005" classname="02AuthGetCardsCardIdMissingTokenIsRejectedOnLocalService"/>
+  </testsuite>
+  <testsuite name="02_Auth / GET /cards/{cardId} - invalid token is rejected on local service" id="010a44f9-bc93-4e63-a064-c19d9258a215" timestamp="2026-05-25T13:28:52.913Z" tests="1" failures="0" errors="0" time="0.005">
+    <testcase name="Skipped on mock: invalid token rejection requires real auth provider" time="0.005" classname="02AuthGetCardsCardIdInvalidTokenIsRejectedOnLocalService"/>
+  </testsuite>
+  <testsuite name="03_Negative / GET /cards/{cardId} - non-existent card returns 404" id="f2c44c95-0589-4c55-a79c-6eb2777b0207" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="Status code is 404" time="0.005" classname="03NegativeGetCardsCardIdNonExistentCardReturns404"/>
+    <testcase name="Response follows Problem RFC 7807" time="0.005" classname="03NegativeGetCardsCardIdNonExistentCardReturns404"/>
+  </testsuite>
+  <testsuite name="03_Negative / GET /access/logs/{logId} - wrong UUID type format returns 400" id="2ada943d-93f5-46df-ac34-365416177488" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="Status code is client error 400 or 422" time="0.005" classname="03NegativeGetAccessLogsLogIdWrongUuidTypeFormatReturns400"/>
+    <testcase name="Error details are provided" time="0.005" classname="03NegativeGetAccessLogsLogIdWrongUuidTypeFormatReturns400"/>
+  </testsuite>
+  <testsuite name="03_Negative / GET /gates/{gateId}/status - non-existent gate returns 404" id="6ee73843-878f-4bb7-9149-8de7729f21f1" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.004">
+    <testcase name="Status code is 404" time="0.004" classname="03NegativeGetGatesGateIdStatusNonExistentGateReturns404"/>
+    <testcase name="Error structure matches ProblemDetails" time="0.004" classname="03NegativeGetGatesGateIdStatusNonExistentGateReturns404"/>
+  </testsuite>
+  <testsuite name="04_Boundary_Reliability / GET /access/logs/recent - boundary limit 100" id="ddecc290-e0fd-4722-ab4a-83d7fc08e6b0" timestamp="2026-05-25T13:28:52.913Z" tests="1" failures="0" errors="0" time="0.004">
+    <testcase name="Max limit boundary of 100 returns success" time="0.004" classname="04BoundaryReliabilityGetAccessLogsRecentBoundaryLimit100"/>
+  </testsuite>
+  <testsuite name="04_Boundary_Reliability / GET /access/logs/recent - boundary limit 101 is rejected" id="f6e96c0d-aebc-41dc-86ed-6dbb0df2c671" timestamp="2026-05-25T13:28:52.913Z" tests="1" failures="0" errors="0" time="0.003">
+    <testcase name="Over max limit boundary 101 returns 400" time="0.003" classname="04BoundaryReliabilityGetAccessLogsRecentBoundaryLimit101IsRejected"/>
+  </testsuite>
+  <testsuite name="04_Boundary_Reliability / GET /access/logs/recent - boundary limit 0 is rejected" id="5e0675ee-ce4a-419e-96d9-810f7246612f" timestamp="2026-05-25T13:28:52.913Z" tests="1" failures="0" errors="0" time="0.004">
+    <testcase name="Under min limit boundary 0 returns 400" time="0.004" classname="04BoundaryReliabilityGetAccessLogsRecentBoundaryLimit0IsRejected"/>
+  </testsuite>
+  <testsuite name="05_Consumer_side_Smoke / Consumer smoke - Core Business can call Access Gate cards endpoint" id="7d7314f6-45b2-47ec-ae94-7733910bf967" timestamp="2026-05-25T13:28:52.913Z" tests="2" failures="0" errors="0" time="0.005">
+    <testcase name="Consumer receives success code 200" time="0.005" classname="05ConsumerSideSmokeConsumerSmokeCoreBusinessCanCallAccessGateCardsEndpoint"/>
+    <testcase name="Consumer can parse the returned card fields" time="0.005" classname="05ConsumerSideSmokeConsumerSmokeCoreBusinessCanCallAccessGateCardsEndpoint"/>
+  </testsuite>
+  <testsuite name="06_Local_only_NonFunctional / Local non-functional - health SLA response time" id="6c84c1b6-7372-4a46-bee7-2c0e5bf0755c" timestamp="2026-05-25T13:28:52.913Z" tests="1" failures="0" errors="0" time="0.005">
+    <testcase name="Skipped on mock: mock server response time does not reflect real performance SLA" time="0.005" classname="06LocalOnlyNonFunctionalLocalNonFunctionalHealthSlaResponseTime"/>
+  </testsuite>
+</testsuites>

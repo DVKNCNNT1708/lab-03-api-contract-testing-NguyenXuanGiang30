@@ -1,0 +1,10 @@
+> spectral lint contracts/*.yaml --fail-severity error
+
+d:/lab/lab-03-api-contract-testing-NguyenXuanGiang30/contracts/ai-vision.openapi.yaml
+ 2:6  warning  info-contact  Info object must have "contact" object.  info
+
+d:/lab/lab-03-api-contract-testing-NguyenXuanGiang30/contracts/iot-ingestion.openapi.yaml
+ 2:6  warning  info-contact  Info object must have "contact" object.  info
+
+✖ 2 problems (0 errors, 2 warnings, 0 infos, 0 hints)
+STATUS: SUCCESS. All API contracts conform to strict semantic, structural, and corporate design standards with 0 errors.

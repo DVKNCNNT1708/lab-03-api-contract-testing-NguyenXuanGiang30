@@ -1,0 +1,14 @@
+[
+  {
+    "gateId": "GATE-01",
+    "cardId": "RFID-2026-001",
+    "expectedStatus": "ACTIVE",
+    "expectedDecision": "ALLOW"
+  },
+  {
+    "gateId": "GATE-02",
+    "cardId": "RFID-2026-003",
+    "expectedStatus": "ACTIVE",
+    "expectedDecision": "ALLOW"
+  }
+]
